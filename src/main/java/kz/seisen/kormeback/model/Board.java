@@ -4,6 +4,8 @@ package kz.seisen.kormeback.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -14,18 +16,16 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "board_pin_mapping",
-            joinColumns = @JoinColumn(name = "board_id"),
-            inverseJoinColumns = @JoinColumn(name = "pin_id")
-    )
-    private List<Pin> pins;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

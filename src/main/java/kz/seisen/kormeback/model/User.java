@@ -2,6 +2,8 @@ package kz.seisen.kormeback.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -12,13 +14,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(unique = true, nullable = false)
     private String email;
-    private String password; // Store hashed passwords in production
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Board> boards;
+    @Column(nullable = false)
+    private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Pin> pins;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 }
